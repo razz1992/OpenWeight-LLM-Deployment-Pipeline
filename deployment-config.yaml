@@ -1,0 +1,43 @@
+project:
+  name: openweight-llm-deployment-pipeline
+  environment: learning
+  execution_mode: on-demand
+
+model:
+  provider: huggingface
+  id: HuggingFaceTB/SmolLM2-360M
+  revision: main  # Pin to verified commit SHA for reproducibility.
+  format: transformers
+  license_review_required: true
+
+inference:
+  engine: transformers
+  device: auto
+  max_new_tokens: 128
+  temperature: 0.7
+
+api:
+  framework: fastapi
+  host: 127.0.0.1
+  port: 8000
+
+container:
+  enabled: true
+  image_name: openweight-llm
+  tag: learning
+
+deployment:
+  provider: aws
+  target: template-only
+  region: us-east-1
+  approval_required: true
+
+monitoring:
+  enabled: true
+  metrics: true
+  logging: true
+
+cost_controls:
+  budget_target_inr: 0
+  require_approval_before_cloud_provisioning: true
+  persistent_hosting: false

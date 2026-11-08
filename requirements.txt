@@ -1,0 +1,8 @@
+# Initial CPU-friendly API and test dependencies.
+# Model-specific GPU packages are installed separately in Kaggle notebooks.
+fastapi
+uvicorn[standard]
+pydantic
+pyyaml
+pytest
+httpx
