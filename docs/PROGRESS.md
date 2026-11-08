@@ -1,44 +1,33 @@
 # Project Progress
 
-**Current phase:** Day 1 — environment readiness  
-**Current task:** Obtain approval to enable WSL2 and install Ubuntu.
+**Current phase:** Kaggle-first pipeline validation  
+**Current task:** Prepare the end-to-end Kaggle notebook and execute it in a Kaggle session.
 
 ## Completed
-- [x] Confirm local project path and create scaffold.
-- [x] Create project plan, decision log and learning log.
-- [x] Create public GitHub repository and push initial commit.
-- [x] Verify Git remote, main branch and clean working tree.
-- [x] Inspect Windows, CPU, RAM, GPU, firmware virtualization, Python and available tools.
-- [x] Record Day 1 environment report.
+- [x] Create local project scaffold and public GitHub repository.
+- [x] Verify Windows, CPU, RAM, integrated GPU, Python and GitHub tooling.
+- [x] Record environment report.
+- [x] User declined enabling WSL2 and installing Ubuntu 24.04. No Windows features were changed.
+- [x] Change execution strategy to Kaggle-first.
+- [x] Add FastAPI inference adapter and API unit tests.
 
 ## In progress
-- [ ] Enable/install WSL2 and Ubuntu (requires user approval and administrator elevation).
-- [ ] Install Python 3.12 inside Ubuntu and create project virtual environment.
-- [ ] Verify Kaggle browser access and GPU accelerator availability.
+- [ ] Add and validate the Kaggle end-to-end notebook.
+- [ ] Import notebook into Kaggle and verify account session/GPU availability.
+- [ ] Execute model loading, generation, benchmark and API tests in Kaggle.
+- [ ] Save execution report and record actual results.
 
-## Pending
-- [ ] Model selection and license review.
-- [ ] First Kaggle inference notebook.
-- [ ] Benchmarks and quantization.
-- [ ] FastAPI and tests.
-- [ ] Dockerfile and remote image build.
-- [ ] GitHub Actions CI.
-- [ ] AWS templates and cost review.
-- [ ] Monitoring/evaluation and final report.
+## Pending / external runner
+- [ ] GitHub Actions lint/test and remote Docker image build.
+- [ ] AWS CloudFormation/IAM templates and cost review (no deployment).
+- [ ] Monitoring/evaluation report and final review.
 
 ## Session log — 2026-11-08
-- Created local project directory at E:\\RazzFnFData\\PostNGRWork\\YQT1\\AgenticLearning\\LLMOps.
-- Created public repository `razz1992/OpenWeight-LLM-Deployment-Pipeline`, default branch `main`.
-- Initial commit: `07bc12f48d249ec41d024ba8287a8233d001a861` — `chore: initialize open-weight LLM deployment learning project`.
-- Verified origin remote points to the new repository and local branch tracks `origin/main`.
-- Machine: Windows 11 Home build 26200; AMD Ryzen 3 3250U (2C/4T); 13.94 GB RAM; AMD Radeon integrated graphics.
-- Firmware virtualization is enabled. WSL is not installed.
-- Python 3.14 and 3.15 are present on Windows; Git 2.56 and GitHub CLI 2.101 are available; GitHub CLI is authenticated as `razz1992`.
-- Kaggle CLI is absent; this is not a blocker for browser notebooks. Docker and NVIDIA CUDA tooling are not detected.
-- WSL optional-feature state could not be queried because elevation is required. No Windows feature changes were made.
-- Next approval required: enable WSL2 and install Ubuntu.
+- User declined enabling WSL2 and installing Ubuntu 24.04. No Windows features were changed.
+- Revised execution plan: Kaggle is the primary runtime for model inference, API tests, benchmarking and evaluation.
+- Added a Hugging Face ModelService, FastAPI /health and /generate endpoints, and unit tests.
+- Docker image build remains a GitHub Actions hosted-runner task because Kaggle does not provide a supported privileged Docker daemon.
+- No AWS resources will be provisioned.
 
-## Session close procedure
-1. Mark tasks complete only with evidence.
-2. Add date, actions, changed files and verification.
-3. Record blockers and decisions required.
+## Evidence policy
+Mark a stage complete only after an actual successful run. Notebook creation or upload is not evidence of execution.

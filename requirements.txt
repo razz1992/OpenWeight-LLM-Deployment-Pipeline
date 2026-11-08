@@ -1,8 +1,10 @@
-# Initial CPU-friendly API and test dependencies.
-# Model-specific GPU packages are installed separately in Kaggle notebooks.
+# Kaggle runtime supplies PyTorch in most images; install only if missing.
 fastapi
-uvicorn[standard]
+uvicorn
 pydantic
 pyyaml
 pytest
 httpx
+transformers
+accelerate
+psutil
