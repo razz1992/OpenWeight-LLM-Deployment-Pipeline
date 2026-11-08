@@ -23,6 +23,7 @@ jobs:
       - name: Compile Python source
         run: python -m compileall -q api tests
       - name: Run API tests
-        run: pytest -q tests/unit
+        # Use module invocation so the repository root is on sys.path.
+        run: python -m pytest -q tests/unit
       - name: Build OCI image (no push)
         run: docker build -t openweight-llm:ci .
