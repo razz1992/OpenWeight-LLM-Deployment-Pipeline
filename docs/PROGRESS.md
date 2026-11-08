@@ -1,23 +1,22 @@
 # Project Progress
 
-**Current phase:** Initial scaffold  
-**Current task:** Confirm GitHub destination and complete Day 1 environment verification.
+**Current phase:** Day 1 — environment readiness  
+**Current task:** Obtain approval to enable WSL2 and install Ubuntu.
 
 ## Completed
-- [x] Confirm local project path.
-- [x] Create base directory structure.
-- [x] Record constraints and architecture decisions.
-- [x] Create project plan and progress tracker.
-- [x] Add Git ignore rules for secrets, weights and generated files.
+- [x] Confirm local project path and create scaffold.
+- [x] Create project plan, decision log and learning log.
+- [x] Create public GitHub repository and push initial commit.
+- [x] Verify Git remote, main branch and clean working tree.
+- [x] Inspect Windows, CPU, RAM, GPU, firmware virtualization, Python and available tools.
+- [x] Record Day 1 environment report.
 
 ## In progress
-- [ ] Confirm GitHub repository destination.
-- [ ] Commit initial scaffold.
-- [ ] Inspect WSL2/Ubuntu and actual Python interpreter.
-- [ ] Verify Kaggle access and GPU availability.
+- [ ] Enable/install WSL2 and Ubuntu (requires user approval and administrator elevation).
+- [ ] Install Python 3.12 inside Ubuntu and create project virtual environment.
+- [ ] Verify Kaggle browser access and GPU accelerator availability.
 
 ## Pending
-- [ ] Day 1 environment report.
 - [ ] Model selection and license review.
 - [ ] First Kaggle inference notebook.
 - [ ] Benchmarks and quantization.
@@ -28,12 +27,16 @@
 - [ ] Monitoring/evaluation and final report.
 
 ## Session log — 2026-11-08
-- Destination: `E:\\RazzFnFData\\PostNGRWork\\YQT1\\AgenticLearning\\LLMOps`.
-- Machine inspection found Windows 11, AMD Ryzen 3 3250U, approximately 14 GB RAM and AMD Radeon integrated graphics.
-- Docker command and NVIDIA CUDA tooling were not detected.
-- Initial directory scaffold and project documents created.
-- Connected GitHub account exposes `razz1992/bdms` and `razz1992/nest-graphql-mysql`; neither appears related, so neither was selected.
-- Awaiting GitHub destination and visibility decision before committing.
+- Created local project directory at E:\\RazzFnFData\\PostNGRWork\\YQT1\\AgenticLearning\\LLMOps.
+- Created public repository `razz1992/OpenWeight-LLM-Deployment-Pipeline`, default branch `main`.
+- Initial commit: `07bc12f48d249ec41d024ba8287a8233d001a861` — `chore: initialize open-weight LLM deployment learning project`.
+- Verified origin remote points to the new repository and local branch tracks `origin/main`.
+- Machine: Windows 11 Home build 26200; AMD Ryzen 3 3250U (2C/4T); 13.94 GB RAM; AMD Radeon integrated graphics.
+- Firmware virtualization is enabled. WSL is not installed.
+- Python 3.14 and 3.15 are present on Windows; Git 2.56 and GitHub CLI 2.101 are available; GitHub CLI is authenticated as `razz1992`.
+- Kaggle CLI is absent; this is not a blocker for browser notebooks. Docker and NVIDIA CUDA tooling are not detected.
+- WSL optional-feature state could not be queried because elevation is required. No Windows feature changes were made.
+- Next approval required: enable WSL2 and install Ubuntu.
 
 ## Session close procedure
 1. Mark tasks complete only with evidence.
