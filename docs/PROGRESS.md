@@ -31,3 +31,11 @@
 
 ## Evidence policy
 Mark a stage complete only after an actual successful run. Notebook creation or upload is not evidence of execution.
+
+## Additional validation — 2026-11-08
+- Notebook JSON parsed successfully: 22 cells.
+- Python source compilation passed with the installed Windows Python 3.14.
+- Local pytest execution was not possible because pytest is not installed in the Windows environment; no global packages were installed.
+- Kaggle API credentials are not currently present on the Windows machine (credential-file and environment-variable presence checks only; no secret values were read).
+- Commit `070bd824bbe61b35e28bb3631b95b319084f8b1e` pushed to `main`; GitHub Actions workflow run was queued at the time of inspection.
+- Kaggle notebook execution is still pending Kaggle account authentication and an available session/quota. Notebook creation is not counted as a successful pipeline run.
