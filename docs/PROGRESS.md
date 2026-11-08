@@ -1,7 +1,7 @@
 # Project Progress
 
-**Current phase:** Container delivery pipeline
-**Current task:** Validate CI, build the Docker image and publish it to GHCR.
+**Current phase:** Container delivery and runtime validation
+**Current task:** Verify the GHCR-published image with a real model-load and inference smoke test.
 
 ## Completed
 - [x] Create local project scaffold and public GitHub repository.
@@ -11,21 +11,23 @@
 - [x] Add container startup model loading controlled by LOAD_MODEL_ON_STARTUP.
 - [x] Configure Docker image with CPU-only PyTorch, non-root runtime user and health check.
 - [x] Configure GitHub Actions to run tests, build on pull requests without publishing, and publish on main/manual runs.
-- [x] Document container runtime configuration and delivery process.
+- [x] Publish the container to GHCR with latest and commit-SHA tags.
+- [x] Add a GHCR smoke-test job that pulls the SHA image, loads SmolLM2-360M on CPU, verifies /health reports model_loaded=true, and calls /generate.
+- [x] Document smoke-test scope, timeout, and limitations.
 
 ## Validation status
-- Python source compilation passed locally.
-- git diff --check passed after whitespace cleanup.
-- Local pytest could not run because pytest is not installed in the Windows Python environment; no global packages were installed.
-- Local YAML parsing could not run because PyYAML is not installed. GitHub Actions will validate the workflow on push.
-- Docker build has not yet been run locally; local Docker installation remains intentionally out of scope.
-- GHCR publication is not yet confirmed; it requires a successful GitHub Actions run.
+- Previous CI test and container publication passed in workflow run #7.
+- The new smoke-test workflow has been added but has not yet run.
+- git diff --check passed for the workflow and deployment documentation.
+- Local YAML parsing is unavailable because PyYAML is not installed; GitHub Actions will validate the workflow on push.
+- Docker is intentionally not installed or used on the Windows machine.
+- No AWS resources have been provisioned.
 
 ## Next checks
-- [ ] Push implementation and inspect GitHub Actions result.
-- [ ] Confirm GHCR image tags were published.
-- [ ] Review image package visibility and pull instructions.
-- [ ] Run a container smoke test in a supported remote environment.
+- [ ] Push the smoke-test workflow and documentation changes.
+- [ ] Confirm unit tests and container build/publish jobs pass.
+- [ ] Confirm the published image pulls, the model loads, /health reports model_loaded=true, and /generate returns non-empty text.
+- [ ] Diagnose any model download, startup, memory, or inference failures before AWS planning.
 - [ ] Plan AWS deployment only after separate approval and cost review.
 
 ## Constraints

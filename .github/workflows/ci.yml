@@ -73,3 +73,76 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+  container-smoke-test:
+    needs: container
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Pull published image
+        id: image
+        shell: bash
+        run: |
+          IMAGE="ghcr.io/${GITHUB_REPOSITORY,,}:sha-${GITHUB_SHA::7}"
+          echo "image=$IMAGE" >> "$GITHUB_OUTPUT"
+          docker pull "$IMAGE"
+
+      - name: Start container with real model loading enabled
+        run: |
+          docker run --detach --name smollm2-smoke \
+            --publish 8000:8000 \
+            --env LOAD_MODEL_ON_STARTUP=true \
+            --env MODEL_DEVICE=cpu \
+            "${{ steps.image.outputs.image }}"
+
+      - name: Wait for model load and verify health
+        shell: bash
+        run: |
+          set -euo pipefail
+          ready=false
+          for attempt in $(seq 1 60); do
+            if response=$(curl --silent --show-error --fail http://127.0.0.1:8000/health 2>/dev/null); then
+              echo "Health response: $response"
+              if python -c 'import json,sys; d=json.loads(sys.argv[1]); sys.exit(0 if d.get("status") == "ok" and d.get("model_loaded") is True else 1)' "$response"; then
+                ready=true
+                break
+              fi
+            fi
+            echo "Waiting for model startup ($attempt/60)..."
+            sleep 15
+          done
+          if [ "$ready" != "true" ]; then
+            echo "Container did not become healthy with the model loaded."
+            docker logs smollm2-smoke
+            exit 1
+          fi
+
+      - name: Verify text generation
+        shell: bash
+        run: |
+          set -euo pipefail
+          response=$(curl --silent --show-error --fail \
+            --request POST http://127.0.0.1:8000/generate \
+            --header "Content-Type: application/json" \
+            --data '{"prompt":"In one sentence, explain what an API does.","max_new_tokens":32,"temperature":0}')
+          echo "Generation response: $response"
+          python -c 'import json,sys; d=json.loads(sys.argv[1]); text=d.get("generated_text", ""); model=d.get("model", ""); assert isinstance(text,str) and text.strip(), "generated_text is empty"; assert model == "HuggingFaceTB/SmolLM2-360M", f"Unexpected model: {model}"; print(f"Verified model={model}; generated characters={len(text)}")' "$response"
+
+      - name: Show container logs on failure
+        if: failure()
+        run: docker logs smollm2-smoke || true
+
+      - name: Stop and remove smoke-test container
+        if: always()
+        run: docker rm --force smollm2-smoke || true
